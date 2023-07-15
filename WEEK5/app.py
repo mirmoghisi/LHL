@@ -1,5 +1,10 @@
-from scapy.all import *
+import ipaddress
+import IPython
+from scapy.layers.inet import IP, ICMP, TCP, UDP
+from scapy.layers.l2 import ARP
+from scapy.all import rdpcap
 from ipaddress import ip_network, IPv4Address
+import os
 
 def analyze_pcap(pcap_file):
     try:
@@ -15,8 +20,8 @@ def analyze_pcap(pcap_file):
 
         for packet in packets:
             if packet.haslayer(ICMP) and packet[ICMP].type == 8:
-                if packet.haslayer(IP):
-                    src_ip = packet[IP].src
+                if packet.haslayer(ipaddress):
+                    src_ip = packet[IPython].src
                     if IPv4Address(src_ip) in local_network_ip:
                         if src_ip in icmp_ip_count:
                             icmp_ip_count[src_ip] += 1
@@ -99,12 +104,9 @@ def analyze_pcap(pcap_file):
     except Exception as e:
         print(f"Error analyzing pcap file {pcap_file}: {str(e)}")
 
-# Provide the folder path where your pcapng files are located
-folder_path = "PCAPNG files/"
+FOLDER_PATH = "WEEK5/PCAPNG files/"
 
-# Iterate over the pcapng files in the folder
-import os
-for filename in os.listdir(folder_path):
+for filename in os.listdir(FOLDER_PATH):
     if filename.endswith(".pcapng"):
-        pcap_file = os.path.join(folder_path, filename)
+        pcap_file = os.path.join(FOLDER_PATH, filename)
         analyze_pcap(pcap_file)
