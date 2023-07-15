@@ -95,7 +95,7 @@ def analyze_pcap(pcap_file):
         print(f"Error analyzing pcap file {pcap_file}: {str(e)}")
 
 # Provide the folder path where your pcapng files are located
-folder_path = "PCAPNG files/"
+folder_path = "./PCAPNG files/"
 
 # Iterate over the pcapng files in the folder
 import os
